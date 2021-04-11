@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "https://tcqa/trialsystem/api/services/app/Account/ValidateUserByUserName?userName=ATULT",
+			"name": "ValidateUser",
 			"event": [
 				{
 					"listen": "test",
