@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "b273db82-564d-4bc4-ae3f-9039a7dd8288",
+		"name": "API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://tcqa/trialsystem/api/services/app/Account/ValidateUserByUserName?userName=ATULT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"pm.test(\"Checked User Name\", function () {\r",
+							"    if(pm.response.code === 500){\r",
+							"    pm.expect(data.error.message).to.include(\"Invalid User Name\");\r",
+							"    }\r",
+							"    else{\r",
+							"\r",
+							"    }\r",
+							"});\r",
+							"console.log(data)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+					},
+					{
+						"key": "Pragma",
+						"value": "no-cache"
+					},
+					{
+						"key": "TimeZoneId",
+						"value": "Etc/UTC##"
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "BrowserInstanceId",
+						"value": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "BrowserId",
+						"value": "6b299d65-44eb-4a1c-b902-e10886a485e7"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en"
+					},
+					{
+						"key": "UserContext",
+						"value": "{}"
+					},
+					{
+						"key": ".AspNetCore.Culture",
+						"value": "en"
+					},
+					{
+						"key": "Expires",
+						"value": "Sat, 01 Jan 2000 00:00:00 GMT"
+					},
+					{
+						"key": "Origin",
+						"value": "https://tcqa"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-origin"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Referer",
+						"value": "https://tcqa/account/login"
+					},
+					{
+						"key": "Cookie",
+						"value": "Abp.User.Site=%5B%7B%22uId%22%3A5%2C%22sId%22%3A%223%22%7D%5D; BrowserId=6b299d65-44eb-4a1c-b902-e10886a485e7; Abp.Localization.CultureName=en"
+					}
+				],
+				"url": {
+					"raw": "https://epdemo/trialsystem/api/services/app/Account/ValidateUserByUserName?userName=ATULT",
+					"protocol": "https",
+					"host": [
+						"epdemo"
+					],
+					"path": [
+						"trialsystem",
+						"api",
+						"services",
+						"app",
+						"Account",
+						"ValidateUserByUserName"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "ATULT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var respData = pm.response.json();\r",
+							"// console.log(respData.result.accessToken);\r",
+							"pm.globals.set(\"tcToken\", respData.result.accessToken);\r",
+							"\r",
+							"pm.test(\"Authenticated\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userNameOrEmailAddress\":\"ATULT\",\"password\":\"qwe123\",\"rememberClient\":false,\"twoFactorRememberClientToken\":null,\"userSiteId\":\"3\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://epdemo/trialsystem/api/TokenAuth/Authenticate",
+					"protocol": "https",
+					"host": [
+						"epdemo"
+					],
+					"path": [
+						"trialsystem",
+						"api",
+						"TokenAuth",
+						"Authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateScr_Demo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responce = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Created Screening\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"console.log(responce.result.title);\r",
+							"\r",
+							"pm.test(\"Created SCR name\", function(){\r",
+							"    pm.expect(responce.result.title).to.equal(pm.variables.get(\"scrName\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{tcToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Pragma",
+						"value": "no-cache"
+					},
+					{
+						"key": "TimeZoneId",
+						"value": "Etc/UTC"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjExIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFUVUxUIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJPTUhEUFlBRFRHUlJWM05FNTdBTDVSNldRUktRREtKRiIsImh0dHA6Ly93d3cuYXNwbmV0Ym9pbGVycGxhdGUuY29tL2lkZW50aXR5L2NsYWltcy90ZW5hbnRJZCI6IjEiLCJzdWIiOiIxMSIsImp0aSI6IjkzMzE1ZjRiLWRjNTctNDc0Yy1iNDVmLWQwYWMzNzc2OTQzMiIsImlhdCI6MTYxODEyMTc1NiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMiIsIlJlcXVlc3RMb2dpbklkIjoiMDVlNGEyNWYtYzI5MS00NDFjLWFiYWQtOGI4NDg2MzkzMGVhIiwibmJmIjoxNjE4MTIxNzU2LCJleHAiOjE2MTgyMDgxNTYsImlzcyI6IlRyaWFsU3lzdGVtIiwiYXVkIjoiVHJpYWxTeXN0ZW0ifQ.8r8YSXjuNyKfpA6krbRpZpy8nid8uhelytuvzRYFFoM"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "BrowserInstanceId",
+						"value": "e999151f-a0fc-4de2-8357-122f4df8199a"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "BrowserId",
+						"value": "5b41b715-1fd2-47e6-8286-5ea840a2e42f"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en"
+					},
+					{
+						"key": "UserContext",
+						"value": "{\"userId\":\"MTE=\",\"siteId\":\"Mg==\",\"studyId\":\"NTc=\",\"sponsorId\":\"MQ==\"}"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36 Edg/89.0.774.75"
+					},
+					{
+						"key": ".AspNetCore.Culture",
+						"value": "en"
+					},
+					{
+						"key": "Expires",
+						"value": "Sat, 01 Jan 2000 00:00:00 GMT"
+					},
+					{
+						"key": "Origin",
+						"value": "https://epdemo"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-origin"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Referer",
+						"value": "https://epdemo/app/trialstudy/composer/design/screeningorfollowups/emptycard"
+					},
+					{
+						"key": "Cookie",
+						"value": "Abp.User.Site=%5B%7B%22uId%22%3A11%2C%22sId%22%3A%222%22%7D%5D; BrowserId=5b41b715-1fd2-47e6-8286-5ea840a2e42f; Abp.Localization.CultureName=en; Abp.AuthToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjExIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFUVUxUIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJPTUhEUFlBRFRHUlJWM05FNTdBTDVSNldRUktRREtKRiIsImh0dHA6Ly93d3cuYXNwbmV0Ym9pbGVycGxhdGUuY29tL2lkZW50aXR5L2NsYWltcy90ZW5hbnRJZCI6IjEiLCJzdWIiOiIxMSIsImp0aSI6IjkzMzE1ZjRiLWRjNTctNDc0Yy1iNDVmLWQwYWMzNzc2OTQzMiIsImlhdCI6MTYxODEyMTc1NiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMiIsIlJlcXVlc3RMb2dpbklkIjoiMDVlNGEyNWYtYzI5MS00NDFjLWFiYWQtOGI4NDg2MzkzMGVhIiwibmJmIjoxNjE4MTIxNzU2LCJleHAiOjE2MTgyMDgxNTYsImlzcyI6IlRyaWFsU3lzdGVtIiwiYXVkIjoiVHJpYWxTeXN0ZW0ifQ.8r8YSXjuNyKfpA6krbRpZpy8nid8uhelytuvzRYFFoM; enc_auth_token=zJRjJvCJs%2BvY3uiYLjwHvmXQOqjSFsQuPXeyOMjAJ6I3Sz9jUOMIy38XMAUAYitpVCQoJx94qUPzCuGW%2F8VT1kNbwvKOqn30ZDHqHBVVOdvxLapYORC%2BgOR7QPX3yyGI3I7WRpwC5l8o3g%2FraUFLnscLy%2F%2FF92QrQQGMZ9L08UP3Y6FnPw6hV5ptkYqHipO0mnPHsNknG3lriksjbdKZhn8cfeKKgrzhUEZxQiCUnIq1WzRmOXfMl%2FRxJB%2BtRjxfeRIykLpUzNuAB8Qq%2F%2BjKJ3SLOebqDHPN90MuxAJmbaJMlcMf%2B7m3dc7NsMO8C7I6aUSCawZU1cv%2BHpv8BWtFTmeXtAecX9tbrpnoyFK6JwD%2Fxm4W%2BhuLTj5WASTYn1WHLp9s%2BFcN5%2FXJIAm4Xt0bQNMuaf7z2Ons4sMOtRtl7FIvHDhHlF6Fe3fe0q%2FLs6smMdsfhogag8vF5Z3nq8YflAkWFe4KorP%2B24CwVa3fviwEJQ1O08%2FfUYIJN%2FiZ1nz8roV0jOfnCN4Ga9%2Fok1z0OScWSRV37TY3pWBWXbKZNE6J7smfNkerP03qJmaWZ0MKN7GwI8kqR2p3Bc%2FrsyHVEabqqW2vhA5CHyLQLJVD%2B5E8X18O3529Txl7B1fVl0FqaICrfDwb%2BujFhZLbqUojD0%2BE6XyzR7W8X%2BUeiM2koZ7ZILErzQSkCplsXKM24ky9U7UaASozXEO6%2BWIxH2V67m4yOXqe9LD26e%2BaxW0O7%2BKSa0ybMAbscIFsyMAbuDMpzLX2ulPkNZ8RwK5UWoR3RQ2439GvRDlD7AW41ViMgeaAnAQQfijpTiOJ1aoNgvEjQqhec8uJ6leu8hMy3gzm06%2Fpw7HmL4pccj0kfgqDxWkgcRzbHgUvr2KyrLgeeO36UVNYQ4rOncwWkMZgKAx6BqXMkzch5c0qzlLgY6a1eJN%2BJ5VGFYLf4qUK%2B5VTZWkeolXYAJHS9OBACFO10M9Ir4M123rvt8GgGt%2FZiloB%2FHBTjGIggN8ZD127DJ%2BcxiqJDqpU4rxgVhhTEIyjdsZtiMlJd5STeetgSkOGdkswP3zwpAkrSc9Xvw7JAIT6zhIO; ISL=false; LST=1800; tokenApi=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjExIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6IkFUVUxUIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJPTUhEUFlBRFRHUlJWM05FNTdBTDVSNldRUktRREtKRiIsImh0dHA6Ly93d3cuYXNwbmV0Ym9pbGVycGxhdGUuY29tL2lkZW50aXR5L2NsYWltcy90ZW5hbnRJZCI6IjEiLCJzdWIiOiIxMSIsImp0aSI6IjkzMzE1ZjRiLWRjNTctNDc0Yy1iNDVmLWQwYWMzNzc2OTQzMiIsImlhdCI6MTYxODEyMTc1NiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMiIsIlJlcXVlc3RMb2dpbklkIjoiMDVlNGEyNWYtYzI5MS00NDFjLWFiYWQtOGI4NDg2MzkzMGVhIiwibmJmIjoxNjE4MTIxNzU2LCJleHAiOjE2MTgyMDgxNTYsImlzcyI6IlRyaWFsU3lzdGVtIiwiYXVkIjoiVHJpYWxTeXN0ZW0ifQ.8r8YSXjuNyKfpA6krbRpZpy8nid8uhelytuvzRYFFoM; screenLock=false; LSITS=Sun%20Apr%2011%202021%2011%3A51%3A18%20GMT%2B0530%20(India%20Standard%20Time); LSTS=Sun%20Apr%2011%202021%2011%3A51%3A18%20GMT%2B0530%20(India%20Standard%20Time)"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"{{scrName}}\",\"epoch\":0,\"epochPart\":{\"id\":10,\"code\":\"FULLSCREENING\",\"displayCode\":\"Full Screening\",\"description\":\"Full Screening\",\"version\":\"2\",\"catCode\":\"StudyPart\",\"sortOrder\":null},\"screeningFollowupCellId\":0,\"maxScrToMedicationDays\":21,\"uoid\":\"{{Oid}}\"}"
+				},
+				"url": {
+					"raw": "https://epdemo/trialstudy/api/services/app/ScreeningFollowup/CreateScreeningFollowup",
+					"protocol": "https",
+					"host": [
+						"epdemo"
+					],
+					"path": [
+						"trialstudy",
+						"api",
+						"services",
+						"app",
+						"ScreeningFollowup",
+						"CreateScreeningFollowup"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "9353162c-7bb7-457b-923b-c7bfe82a92ee",
+			"key": "scrName",
+			"value": "11042021_001"
+		},
+		{
+			"id": "a2e6db02-6a39-476b-a67e-aa5bbba8fdcf",
+			"key": "Oid",
+			"value": "11042021_001"
+		}
+	]
+}
